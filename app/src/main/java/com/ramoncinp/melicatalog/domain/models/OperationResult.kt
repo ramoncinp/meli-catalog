@@ -1,7 +1,7 @@
 package com.ramoncinp.melicatalog.domain.models
 
-sealed class OperationResult<T> {
-    data class Success<T>(val data: T): OperationResult<T>()
-    data class Error(val message: String): OperationResult<Nothing>()
-    object Loading: OperationResult<Nothing>()
+sealed class OperationResult<T>(val data: T?, val message: String?) {
+    class Success<T>(data: T) : OperationResult<T>(data, null)
+    class Error<T>(message: String) : OperationResult<T>(null, message)
+    class Loading<T> : OperationResult<T>(null, null)
 }

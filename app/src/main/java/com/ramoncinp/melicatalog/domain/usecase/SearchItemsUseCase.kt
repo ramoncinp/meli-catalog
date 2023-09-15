@@ -1,38 +1,36 @@
 package com.ramoncinp.melicatalog.domain.usecase
 
-import com.ramoncinp.melicatalog.data.models.ServiceResult
+import com.ramoncinp.melicatalog.data.models.SearchedItem
 import com.ramoncinp.melicatalog.data.repository.MeLiRepository
+import com.ramoncinp.melicatalog.domain.models.OperationException
 import com.ramoncinp.melicatalog.domain.models.OperationResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+private const val SPACE_SEPARATOR = "%20"
+
 class SearchItemsUseCase @Inject constructor(
     private val meLiRepository: MeLiRepository
 ) {
 
-    operator fun <T> invoke(
+    operator fun invoke(
         query: String,
         siteId: String = "MLM",
         limit: Int = 20,
         offset: Int = 0
-    ): Flow<OperationResult<out T>> = flow {
-        emit(OperationResult.Loading)
+    ): Flow<OperationResult<List<SearchedItem>>> = flow {
+        emit(OperationResult.Loading())
         try {
-            val response = meLiRepository.searchItems(
-                siteId, query, limit, offset
+            val q = query.replaceSpaces()
+            val results = meLiRepository.searchItems(
+                siteId, q, limit, offset
             )
-
-            when(response) {
-                is ServiceResult.Error -> {
-                    OperationResult.Error(response.message)
-                }
-                is ServiceResult.Success -> {
-                    OperationResult.Success(response.data)
-                }
-            }
-        } catch (e: Exception) {
-            emit(OperationResult.Error("Error fetching query results"))
+            emit(OperationResult.Success(results))
+        } catch (e: OperationException) {
+            emit(OperationResult.Error("Error fetching query results: ${e.error}"))
         }
     }
+
+    private fun String.replaceSpaces(): String = replace(" ", SPACE_SEPARATOR)
 }

@@ -2,8 +2,8 @@ package com.ramoncinp.melicatalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ramoncinp.melicatalog.data.models.ServiceResult
-import com.ramoncinp.melicatalog.data.repository.MeLiRepository
+import com.ramoncinp.melicatalog.domain.models.OperationResult
+import com.ramoncinp.melicatalog.domain.usecase.SearchItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,23 +12,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val meLiRepository: MeLiRepository
+    private val searchItemsUseCase: SearchItemsUseCase
 ) : ViewModel() {
 
     fun searchItems() {
         viewModelScope.launch(Dispatchers.IO) {
             Timber.d("Fetching items...")
 
-            val response = meLiRepository.searchItems(
-                siteId = "MLM",
-                query = "Café",
-                limit = 20,
-                offset = 0
-            )
-
-            when (response) {
-                is ServiceResult.Error -> Timber.e("Error searching data ${response.message}")
-                is ServiceResult.Success -> Timber.d("Fetched data -> ${response.data}")
+            searchItemsUseCase("Taylor").collect { response ->
+                when (response) {
+                    is OperationResult.Error -> Timber.e("Error -> ${response.message}")
+                    is OperationResult.Loading -> Timber.d("is Loading")
+                    is OperationResult.Success -> Timber.d("Success -> ${response.data}")
+                }
             }
         }
     }

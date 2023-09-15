@@ -1,7 +1,6 @@
 package com.ramoncinp.melicatalog.data.repository
 
 import com.ramoncinp.melicatalog.data.models.SearchedItem
-import com.ramoncinp.melicatalog.data.models.ServiceResult
 
 interface MeLiRepository {
 
@@ -10,5 +9,5 @@ interface MeLiRepository {
         query: String,
         limit: Int,
         offset: Int
-    ): ServiceResult<List<SearchedItem>>
+    ): List<SearchedItem>
 }

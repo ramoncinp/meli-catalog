@@ -12,14 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramoncinp.melicatalog.R
 import com.ramoncinp.melicatalog.data.models.SearchedItem
 import com.ramoncinp.melicatalog.databinding.FragmentSearchBinding
 import com.ramoncinp.melicatalog.presentation.adapter.SearchedItemAdapter
+import com.ramoncinp.melicatalog.presentation.utils.ItemsScrollListener
 import com.ramoncinp.melicatalog.presentation.utils.hideKeyboard
 import com.ramoncinp.melicatalog.presentation.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -41,15 +42,22 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMenu()
-        initAdapter()
+        initListAdapter()
         initObservers()
     }
 
-    private fun initAdapter() {
+    private fun initListAdapter() {
         listAdapter = SearchedItemAdapter()
         binding.itemsList.apply {
             this.adapter = listAdapter
             addItemDecoration(DividerItemDecoration(context, VERTICAL))
+            addOnScrollListener(
+                ItemsScrollListener(layoutManager as LinearLayoutManager) { visibleItemCount, firstVisibleItemPosition ->
+                    viewModel.checkPagination(
+                        visibleItemCount, firstVisibleItemPosition
+                    )
+                }
+            )
         }
     }
 
@@ -57,6 +65,9 @@ class SearchFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { updateLoadingStatus(it) }
         viewModel.errorMessage.observe(viewLifecycleOwner) { onErrorMessage(it) }
         viewModel.searchedItems.observe(viewLifecycleOwner) { onItemsData(it) }
+        viewModel.isFetchingNextPage.observe(viewLifecycleOwner) {
+            binding.paginationProgressBar.isVisible = it
+        }
     }
 
     private fun initMenu() {
@@ -85,7 +96,6 @@ class SearchFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    Timber.d("New query text: $newText")
                     return false
                 }
             })

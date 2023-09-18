@@ -1,4 +1,4 @@
-package com.ramoncinp.melicatalog.presentation
+package com.ramoncinp.melicatalog.presentation.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,6 @@ import com.ramoncinp.melicatalog.di.DispatcherProvider
 import com.ramoncinp.melicatalog.domain.models.OperationResult
 import com.ramoncinp.melicatalog.domain.usecase.SearchItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject

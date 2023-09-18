@@ -11,12 +11,13 @@ import com.ramoncinp.melicatalog.data.models.SearchedItem
 import com.ramoncinp.melicatalog.databinding.SearchedItemBinding
 import com.ramoncinp.melicatalog.domain.utils.formatAsCurrency
 
-class SearchedItemAdapter :
-    ListAdapter<SearchedItem, SearchedItemAdapter.ViewHolder>(SearchedItemDiffCallback()) {
+class SearchedItemAdapter(
+    private val onClick: (String) -> Unit
+) : ListAdapter<SearchedItem, SearchedItemAdapter.ViewHolder>(SearchedItemDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, onClick)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,12 +28,15 @@ class SearchedItemAdapter :
         private val binding: SearchedItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SearchedItem) {
+        fun bind(item: SearchedItem, onClick: (String) -> Unit) {
             with(binding) {
                 title.text = item.title
                 itemPrice.text = item.price.formatAsCurrency()
                 currency.text = item.currencyId
                 itemImage.setItemImage(item.thumbnail)
+                root.setOnClickListener {
+                    onClick.invoke(item.id)
+                }
             }
         }
 

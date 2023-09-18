@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="@dimen/medium_spacing"
         android:layout_marginTop="@dimen/medium_spacing"
         android:layout_marginBottom="@dimen/medium_spacing"
@@ -21,11 +21,13 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/medium_spacing"
         android:layout_marginEnd="@dimen/medium_spacing"
+        android:layout_marginBottom="@dimen/small_spacing"
         android:textColor="@android:color/black"
         android:textSize="@dimen/small_text"
+        app:layout_constraintBottom_toTopOf="@+id/item_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_image"
         app:layout_constraintTop_toTopOf="@+id/item_image"

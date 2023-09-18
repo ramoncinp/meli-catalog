@@ -4,6 +4,7 @@ import com.ramoncinp.melicatalog.data.MeLiService
 import com.ramoncinp.melicatalog.data.models.SearchedItem
 import com.ramoncinp.melicatalog.domain.models.OperationError
 import com.ramoncinp.melicatalog.domain.models.OperationException
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -27,6 +28,8 @@ class MeLiRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) {
             throw OperationException(OperationError.SERVER_ERROR)
         }
+
+        Timber.d("All results size is: ${response.body()?.paging?.total}")
 
         return response.body()?.results ?: listOf()
     }

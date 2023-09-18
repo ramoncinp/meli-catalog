@@ -4,4 +4,5 @@
     <string name="buscar">Buscar</string>
     <string name="imagen_buscar">Imagen buscar</string>
     <string name="inicia_la_busqueda_de_un_producto">Inicia la búsqueda de un producto</string>
+    <string name="searched_item_image">searched_item_image</string>
 </resources>

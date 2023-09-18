@@ -50,7 +50,6 @@ class SearchViewModel @Inject constructor(
 
     private fun fetchItems() {
         viewModelScope.launch(dispatcherProvider.io()) {
-            delay(500)
             searchItemsUseCase(
                 query = currentQuery,
                 limit = PAGE_SIZE,
@@ -63,7 +62,7 @@ class SearchViewModel @Inject constructor(
                         _errorMessage.postValue(response.message)
                     }
                     is OperationResult.Loading -> {
-                        if (_isFetchingNextPage.value == false) _isLoading.postValue(true)
+                        if (_isFetchingNextPage.value != true) _isLoading.postValue(true)
                     }
                     is OperationResult.Success -> {
                         _isLoading.postValue(false)

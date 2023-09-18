@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.detail.DetailFragment"
+    tools:ignore="ExtraText">
+
+    <ProgressBar
+        android:id="@+id/progress_Bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_spacing"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/normal_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="My amazing product" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pictures_list"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="@dimen/medium_spacing"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:itemCount="5"
+        tools:listitem="@layout/picture_item_layout" />
+
+    <TextView
+        android:id="@+id/original_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_spacing"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/pictures_list"
+        app:layout_constraintTop_toBottomOf="@+id/pictures_list"
+        tools:text="$135.00" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/medium_text"
+        app:layout_constraintStart_toStartOf="@+id/original_price"
+        app:layout_constraintTop_toBottomOf="@+id/original_price"
+        tools:text="$200.00" />
+
+    <TextView
+        android:id="@+id/available_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_spacing"
+        android:layout_marginTop="@dimen/medium_spacing"
+        android:layout_marginEnd="@dimen/medium_spacing"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/normal_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price"
+        tools:text="Tenemos 2304 articulos disponibles!" />
+
+    <TextView
+        android:id="@+id/accepts_mercado_pag_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_spacing"
+        android:layout_marginTop="@dimen/small_spacing"
+        android:text="@string/este_producto_acepta_mercado_pago"
+        android:textColor="@android:color/holo_blue_dark"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/available_products" />
+
+    <include
+        android:id="@+id/error_message"
+        layout="@layout/error_message_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/content_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="pictures_list, title, original_price, price, available_products, accepts_mercado_pag_tv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.ramoncinp.melicatalog.data
 
+import com.ramoncinp.melicatalog.data.models.ItemDetailResponse
 import com.ramoncinp.melicatalog.data.models.SearchItemsResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -19,5 +20,5 @@ interface MeLiService {
     @GET("items")
     suspend fun getItem(
         @Query("ids") ids: String
-    )
+    ): Response<List<ItemDetailResponse>>
 }

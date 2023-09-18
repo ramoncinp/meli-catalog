@@ -1,17 +1,21 @@
-package com.ramoncinp.melicatalog.presentation
+package com.ramoncinp.melicatalog.presentation.search
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramoncinp.melicatalog.R
 import com.ramoncinp.melicatalog.data.models.SearchedItem
@@ -47,10 +51,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun initListAdapter() {
-        listAdapter = SearchedItemAdapter()
+        listAdapter = SearchedItemAdapter { onItemClicked(it) }
         binding.itemsList.apply {
             this.adapter = listAdapter
-            addItemDecoration(DividerItemDecoration(context, VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             addOnScrollListener(
                 ItemsScrollListener(layoutManager as LinearLayoutManager) { visibleItemCount, firstVisibleItemPosition ->
                     viewModel.checkPagination(
@@ -89,7 +93,7 @@ class SearchFragment : Fragment() {
         searchView.apply {
             isIconified = false
             queryHint = resources.getString(R.string.buscar)
-            setOnQueryTextListener(object : OnQueryTextListener {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     onSubmitQuery(query)
                     return true
@@ -103,7 +107,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onSubmitQuery(query: String?) {
-        if (query == null || query.isEmpty()) return
+        if (query.isNullOrEmpty()) return
         viewModel.searchItems(query)
     }
 
@@ -124,6 +128,14 @@ class SearchFragment : Fragment() {
         message?.let {
             view?.showSnackBar(it)
         }
+    }
+
+    private fun onItemClicked(itemId: String) {
+        findNavController().navigate(
+            SearchFragmentDirections.searchFragmentToDetails(
+                itemId
+            )
+        )
     }
 
     override fun onDestroyView() {

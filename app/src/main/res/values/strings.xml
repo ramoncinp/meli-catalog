@@ -5,4 +5,10 @@
     <string name="imagen_buscar">Imagen buscar</string>
     <string name="inicia_la_busqueda_de_un_producto">Inicia la búsqueda de un producto</string>
     <string name="searched_item_image">searched_item_image</string>
+    <string name="item_picture">Item picture</string>
+    <string name="producto">Producto</string>
+    <string name="available_products_message">Tenemos %d articulos disponibles!</string>
+    <string name="sad_face">Sad face</string>
+    <string name="generic_error_message">Hubo un error al obtener la información, intentelo más tarde</string>
+    <string name="este_producto_acepta_mercado_pago">Este producto acepta mercado pago</string>
 </resources>

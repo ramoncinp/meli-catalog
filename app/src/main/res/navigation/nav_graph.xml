@@ -7,7 +7,25 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.ramoncinp.melicatalog.presentation.SearchFragment"
+        android:name="com.ramoncinp.melicatalog.presentation.search.SearchFragment"
         android:label="@string/buscar"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/searchFragmentToDetails"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.ramoncinp.melicatalog.presentation.detail.DetailFragment"
+        android:label="@string/producto"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="itemId"
+            app:argType="string" />
+    </fragment>
+
 </navigation>
